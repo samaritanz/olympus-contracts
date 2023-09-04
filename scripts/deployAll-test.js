@@ -62,7 +62,7 @@ async function main() {
   const treasuryAddr = "0x62BA9563e8b3575C585656FEeE96029bea9B6864";
   const distributorAddr = "0xA82D16DB09e2ed19238839FDCB045f101a10A277";
   const stakingAddr = "0x298E8A0E5D371Db1e9B5a7A261eF25EEdB1E9156";
-  const stakingWarmupAddr = "0x18dc89259c8332b397845591eAC9431Db7835fE6";
+  const stakingWarmupAddr = "0xcB49743313FEcd6171D899E03a6Cecc21CB9f9dB";
   const stakingHelperAddr = "0xD23F9034E04d623336fE90d54D4907B7229AB6A8";
   const daiBondAddr = "0x88f338A84ab9bF700B7A2b6c87B3c750A1d214AC";
   const redeemHelperAddr = "0x9E9c2c017B09a48489156b4eC0CC950757a1aa5f";
