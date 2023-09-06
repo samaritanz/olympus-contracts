@@ -11,11 +11,12 @@ async function main() {
   const firstEpochBlock = "0";
 
   // What epoch will be first epoch
-  const firstEpochNumber = "330010000";
+  const firstEpochNumber = "33095000";
   const initialIndex = "1000000000";
 
   // How many blocks are in each epoch
-  const epochLengthInBlocks = "9600";
+  // const epochLengthInBlocks = "9600";
+  const epochLengthInBlocks = "10";
 
   // Initial reward rate for epoch
   const initialRewardRate = "10000";
@@ -53,17 +54,17 @@ async function main() {
   // Initial Bond debt
   const intialBondDebt = "0";
   const routerAddr = "0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3";
+  const factoryAddr = "0xb7926c0430afb07aa7defde6da862ae0bde767bc";
   const ohmAddr = "0xd333F5d8036fB2d04eA124fb933830a52A0Bb250";
-  const sOHMAddr = "0x891De0a74761Bbb95DB2eFDBF43cA32d7a2Efbc5";
+  const pairAddr = "0x5d62682b7c8d8039c243998113772377d2ebd5f5";
+  const sOHMAddr = "0x8670dDebB2073d92DEe7D7803f6efec1620B942f";
   const daiAddr = "0x93c916230BE7DcbdD72c8FFC6B07c8819c7d9b3C";
   const calcAddr = "0x49E83e73222195323b010827e408e8B9044f1dC8";
-  const factoryAddr = "0xb7926c0430afb07aa7defde6da862ae0bde767bc";
-  const pairAddr = "0x5d62682b7c8d8039c243998113772377d2ebd5f5";
   const treasuryAddr = "0x62BA9563e8b3575C585656FEeE96029bea9B6864";
-  const distributorAddr = "0xA82D16DB09e2ed19238839FDCB045f101a10A277";
-  const stakingAddr = "0x298E8A0E5D371Db1e9B5a7A261eF25EEdB1E9156";
-  const stakingWarmupAddr = "0xcB49743313FEcd6171D899E03a6Cecc21CB9f9dB";
-  const stakingHelperAddr = "0xD23F9034E04d623336fE90d54D4907B7229AB6A8";
+  const distributorAddr = "0x055632dE7E8b639238053EB5bd1d4FDc6aCB9063";
+  const stakingAddr = "0x59Cf2E6eb761942f102d2E84aBE676287056D77e";
+  const stakingWarmupAddr = "0xE499Ebb4C8D9EA61f170dB72a9f8Fe65FF7d1Ee8";
+  const stakingHelperAddr = "0xEF2f7496D6572A15126dD796ED752a9dE1f44039";
   const daiBondAddr = "0x88f338A84ab9bF700B7A2b6c87B3c750A1d214AC";
   const redeemHelperAddr = "0x9E9c2c017B09a48489156b4eC0CC950757a1aa5f";
   const depositHelperAddr = "0x3209eC2acaac55b2757Ec43885D2b3CdB8492E3f";
@@ -205,36 +206,37 @@ async function main() {
   // // const initializer = await sOHM.initializer();
   // // console.log("sohm initializer is ", initializer);
   // // if (initializer !== zeroAddress) {
-  // //   await sOHM.initialize(staking.address);
-  // //   console.log("sOHM initialize successful  ");
+  // await sOHM.initialize(staking.address);
+  // console.log("sOHM initialize successful  ");
 
-  // //   await sOHM.setIndex(initialIndex);
-  // //   console.log("sOHM setIndex successful  ");
-  // // }
-  // // staking.setContract("0", distributor.address);
-  // // console.log("staking setContract 0  distributor");
-  // // staking.setContract("1", stakingWarmup.address);
-  // // console.log("staking setContract 1  stakingWarmup ");
+  // await sOHM.setIndex(initialIndex);
+  // console.log("sOHM setIndex successful  ");
+  // // // }
+  // staking.setContract("0", distributor.address);
+  // console.log("staking setContract 0  distributor");
+  // staking.setContract("1", stakingWarmup.address);
+  // console.log("staking setContract 1  stakingWarmup ");
   // ohm.setVault(treasury.address);
   // console.log("ohm setVault  treasury ");
 
   // // Add staking contract as distributor recipient
-  // // await distributor.addRecipient(staking.address, initialRewardRate);
-  // // console.log(
-  // //   "distributor addRecipient successful  ",
-  // //   staking.address,
-  // //   initialRewardRate
-  // // );
+  await distributor.addRecipient(staking.address, initialRewardRate);
+  console.log(
+    "distributor addRecipient successful  ",
+    staking.address,
+    initialRewardRate
+  );
+  await distributor.setAdjustment(0, true, 5000, 10000);
   // redeemHelper.addBondContract(daiBond.address);
   // console.log("redeemHelper addBondContract successful  ", daiBond.address);
   // // ---------------------- ---------------------- //
   // // // queue and toggle reward manager
   // await treasury.queue("8", olympusBondingCalculator.address);
   // console.log("treasury queue successful  8", olympusBondingCalculator.address);
-  // await treasury.queue("8", distributor.address);
-  // console.log("treasury queue successful  8", distributor.address);
-  // await treasury.toggle("8", distributor.address, distributor.address);
-  // console.log("treasury toggle successful  8", distributor.address);
+  await treasury.queue("8", distributor.address);
+  console.log("treasury queue successful  8", distributor.address);
+  await treasury.toggle("8", distributor.address, distributor.address);
+  console.log("treasury toggle successful  8", distributor.address);
 
   // // queue and toggle DAI and Frax bond reserve depositor
   // await treasury.queue("0", deployer.address);
@@ -248,8 +250,8 @@ async function main() {
   // console.log("treasury toggle successful  4", daiBond.address);
 
   // // // Set staking for DAI and Frax bond
-  // await daiBond.setStaking(staking.address, false);
-  // console.log("daiBond setStaking successful  ");
+  await daiBond.setStaking(staking.address, false);
+  console.log("daiBond setStaking successful  ");
   // // // Set DAI and Frax bond terms
   // await daiBond.initializeBondTerms(
   //   daiBondBCV,
@@ -273,13 +275,13 @@ async function main() {
   // console.log("dai approve successful  ", daiBond.address, largeApproval);
 
   // // Approve staking and staking helper contact to spend deployer's OHM
-  // await ohm.approve(staking.address, largeApproval);
-  // console.log("ohm approve successful  ", staking.address, largeApproval);
+  await ohm.approve(staking.address, largeApproval);
+  console.log("ohm approve successful  ", staking.address, largeApproval);
   // await ohm.approve(routerAddr, largeApproval);
   // console.log("ohm approve successful  ", staking.address, largeApproval);
 
-  // await ohm.approve(stakingHelper.address, largeApproval);
-  // console.log("ohm approve successful  ", stakingHelper.address, largeApproval);
+  await ohm.approve(stakingHelper.address, largeApproval);
+  console.log("ohm approve successful  ", stakingHelper.address, largeApproval);
   // await treasury.deposit(
   //   "9000000000000000000000000",
   //   dai.address,
@@ -302,17 +304,17 @@ async function main() {
 
   // await daiBond.setBondTerms(0, 144000);
   // console.log("setBondTerms successful");
-  // await stakingHelper.stake("200000000");
-  // console.log("stakingHelper stake successful  ");
+  await stakingHelper.stake("200000000");
+  console.log("stakingHelper stake successful  ");
 
-  // await staking.setWarmup(2);
-  // console.log("staking setWarmup successful  ");
+  await staking.setWarmup(2);
+  console.log("staking setWarmup successful  ");
 
-  await daiBond.setAdjustment(false, 1, 9, 1);
-  console.log("setAdjustment successful");
+  // await daiBond.setAdjustment(false, 1, 9, 1);
+  // console.log("setAdjustment successful");
   // // Stake OHM through helper
-  // await stakingHelper.stake("100000000000");
-  // console.log("stakingHelper stake successful  ");
+  await stakingHelper.stake("100000000000");
+  console.log("stakingHelper stake successful  ");
 
   // // Bond 1,000 OHM and Frax in each of their bonds
   // await daiBond.deposit("1000000000000000000000", "60000", deployer.address);
